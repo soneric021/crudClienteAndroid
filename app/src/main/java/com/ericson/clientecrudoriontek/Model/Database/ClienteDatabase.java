@@ -13,7 +13,7 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import com.ericson.clientecrudoriontek.Model.Entities.Cliente;
 import com.ericson.clientecrudoriontek.Model.Entities.Direccion;
 
-@Database(entities ={Cliente.class, Direccion.class}, version = 1)
+@Database(entities ={Cliente.class, Direccion.class}, version = 2)
 public abstract class ClienteDatabase extends RoomDatabase {
     private static ClienteDatabase instance;
 

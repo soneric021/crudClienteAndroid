@@ -24,6 +24,8 @@ public class AddClienteActivity extends AppCompatActivity {
     private EditText editDireccion;
     private DatePicker editFecha;
     private Button btnGuardar;
+    private Button btnEliminar;
+    private Cliente clienteEl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,20 +35,45 @@ public class AddClienteActivity extends AppCompatActivity {
         editTelefono = (EditText) findViewById(R.id.editTelefono);
         editDireccion = findViewById(R.id.editDireccion);
         btnGuardar = findViewById(R.id.btnGuardar);
-        Cliente cliente = new Cliente();
-        String name = txtNombre.getText().toString();
-        cliente.setName(name);
-        String fecha = editFecha.getYear() + "-" + editFecha.getMonth() + "-" + editFecha.getDayOfMonth();
-        cliente.setFechaNac(fecha);
-        String telefono = editTelefono.getText().toString();
-        cliente.setTelefono(telefono);
+        btnEliminar = findViewById(R.id.btnBorrar);
+        int idCliente = getIntent().getIntExtra("idCliente", 0);
        // cliente.getDirecciones().add(new Direccion(editDireccion.getText().toString()));
 
         clienteViewModel = new ViewModelProvider(this).get(ClienteViewModel.class);
+        clienteViewModel.getListClienteOff().observe(this, clienteDirecciones -> {
+                    if(idCliente != 0){
+                        clienteEl = clienteDirecciones.get(0).cliente;
+                        btnGuardar.setText("Editar");
+                        btnEliminar.setVisibility(View.VISIBLE);
+                        txtNombre.setText(clienteEl.getName());
+                        editTelefono.setText(clienteEl.getTelefono());
+                    }
+                }
+
+                );
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clienteViewModel.getClienteService().insertCliente(cliente);
+
+                Cliente cliente = new Cliente();
+                String name = txtNombre.getText().toString();
+                cliente.setName(name);
+                String fecha = editFecha.getYear() + "-" + editFecha.getMonth() + "-" + editFecha.getDayOfMonth();
+                cliente.setFechaNac(fecha);
+                String telefono = editTelefono.getText().toString();
+                cliente.setTelefono(telefono);
+                if(idCliente != 0){
+                    clienteViewModel.getClienteService().updateCliente(cliente);
+                }else{
+                    clienteViewModel.getClienteService().insertCliente(cliente);
+                }
+            }
+        });
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            clienteViewModel.getClienteService().deleteClienteOff(clienteEl);
+            onBackPressed();
             }
         });
     }

@@ -23,6 +23,6 @@ LiveData<List<ClienteDirecciones>> getClientesOff();
     LiveData<ClienteDirecciones> getClienteOff(int id);
     void insertCliente(Cliente cliente);
     void updateCliente(Cliente cliente);
-    void deleteClienteOff(int id);
+    void deleteClienteOff(Cliente cliente);
 
 }

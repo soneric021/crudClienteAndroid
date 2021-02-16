@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class Cliente {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
     private String telefono;

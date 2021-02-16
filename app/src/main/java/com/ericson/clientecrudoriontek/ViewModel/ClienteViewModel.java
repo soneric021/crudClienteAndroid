@@ -19,6 +19,7 @@ public class ClienteViewModel extends AndroidViewModel {
     private ClienteService clienteService;
     private LiveData<List<ResponseCliente>> listCliente = new MutableLiveData<>();
     private LiveData<List<ClienteDirecciones>> listClienteoff = new MutableLiveData<>();
+    private LiveData<ClienteDirecciones> clienteoff = new MutableLiveData<>();
     private MutableLiveData<ResponseCliente> cliente = new MutableLiveData<>();
     public ClienteViewModel(@NonNull Application application) {
         super(application);
@@ -40,5 +41,9 @@ public class ClienteViewModel extends AndroidViewModel {
     public LiveData<List<ClienteDirecciones>> getListClienteOff(){
         listClienteoff = clienteService.getClientesOff();
         return  listClienteoff;
+    }
+    public LiveData<ClienteDirecciones> getClienteOff(int id){
+        clienteoff = clienteService.getClienteOff(id);
+        return clienteoff;
     }
 }

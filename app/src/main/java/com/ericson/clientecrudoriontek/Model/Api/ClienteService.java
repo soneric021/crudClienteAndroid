@@ -182,7 +182,18 @@ public class ClienteService implements IClienteService {
         }
     }
     @Override
-    public void deleteClienteOff(int id) {
-        clienteDao.delete(clienteDao.getById(id).getValue().cliente);
+    public void deleteClienteOff(Cliente cliente) {
+        new DeleteClienteAsync(clienteDao).execute(cliente);
+    }
+    private static class DeleteClienteAsync extends AsyncTask<Cliente, Void, Void>{
+        private ClienteDao clienteDao;
+        private   DeleteClienteAsync(ClienteDao clienteDao){
+            this.clienteDao = clienteDao;
+        }
+        @Override
+        protected Void doInBackground(Cliente... clientes) {
+            this.clienteDao.delete(clientes[0]);
+            return null;
+        }
     }
 }
